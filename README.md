@@ -1,1 +1,13 @@
 # ShowYourTrueSelf
+REQUIREMENTS:
+    
+
+
+
+
+
+
+
+
+
+/END REQUIREMENTS
