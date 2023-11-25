@@ -3,24 +3,29 @@ package org.faciee;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class PythonIntegration {
     public static void main(String[] args) {
         // Define the Python script paths
-        String script1 = "src/main/python/org/faciee/workers/test1.py";
+        String script1 = "PythonRunner/src/main/python/org/faciee/workers/test1.py";
         String script2 = "src/main/python/org/faciee/workers/test2.py";
 
+        // Define parameters for the Python scripts
+        String param1 = "path/to/video.mp4";
+        String param2 = "param2_value";
+
         // Create and start threads to execute the Python scripts
-        Thread thread1 = new Thread(() -> executePythonScript(script1));
-        Thread thread2 = new Thread(() -> executePythonScript(script2));
+        Thread thread1 = new Thread(() -> executePythonScript(script1, param1));
+//        Thread thread2 = new Thread(() -> executePythonScript(script2, param2));
 
         thread1.start();
-        thread2.start();
+//        thread2.start();
 
         // Wait for threads to finish
         try {
             thread1.join();
-            thread2.join();
+//             thread2.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -28,13 +33,14 @@ public class PythonIntegration {
         System.out.println("Java application finished.");
     }
 
-    private static void executePythonScript(String scriptPath) {
+    private static void executePythonScript(String scriptPath, String... params) {
         try {
-            // Provide the full path to the Python executable
-            String pythonExecutable = "Python/python.exe";
-
-            ProcessBuilder processBuilder = new ProcessBuilder(pythonExecutable, scriptPath);
+            // Build the command for the Python script with parameters
+            ProcessBuilder processBuilder = new ProcessBuilder("Python/python.exe", scriptPath);
             processBuilder.redirectErrorStream(true);
+
+            // Add parameters to the command
+            processBuilder.command().addAll(Arrays.asList(params));
 
             Process process = processBuilder.start();
 
@@ -52,6 +58,4 @@ public class PythonIntegration {
             e.printStackTrace();
         }
     }
-
 }
-
