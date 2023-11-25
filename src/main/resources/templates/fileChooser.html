@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Chooser Example</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        #fileInputContainer {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #fileInput {
+            opacity: 0;
+            width: 0.1px;
+            height: 0.1px;
+            position: absolute;
+        }
+
+        #fileInputLabel {
+            cursor: pointer;
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        #fileInputLabel:hover {
+            background-color: #2980b9;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background-color: #2ecc71;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+        }
+
+        #fileList {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .fileListItem {
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: #fff;
+            border: 1px solid #dcdcdc;
+            border-radius: 5px;
+        }
+
+        #fileTable {
+            display: none; /* initially hide the table */
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        #fileTable th, #fileTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #fileTable th {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        /* Animation styles */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); }
+            to { transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .slide-down {
+            animation: slideDown 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Video Chooser</h2>
+
+<div id="fileInputContainer">
+    <label id="fileInputLabel" for="fileInput">Browse Files</label>
+    <input type="file" id="fileInput" accept=".mp4" multiple onchange="displaySelectedFiles()">
+</div>
+
+<button type="button" onclick="uploadFileNames()">Upload File Names</button>
+
+<a href="#" onclick="displayQueue()">Display Queue</a>
+
+<div id="fileList"></div>
+
+<table id="fileTable">
+    <thead>
+    <tr>
+        <th>Row ID</th>
+        <th>File Name</th>
+    </tr>
+    </thead>
+    <tbody id="fileTableBody"></tbody>
+</table>
+
+<script>
+    function displaySelectedFiles() {
+        var fileInput = document.getElementById('fileInput');
+        var fileListDiv = document.getElementById('fileList');
+        fileListDiv.innerHTML = 'Selected files: \n';
+
+        for (var i = 0; i < fileInput.files.length; i++) {
+            var fileNameDiv = document.createElement('div');
+            fileNameDiv.className = 'fileListItem';
+            fileNameDiv.textContent = fileInput.files[i].name;
+            fileListDiv.appendChild(fileNameDiv);
+        }
+    }
+
+    function uploadFileNames() {
+        var fileInput = document.getElementById('fileInput');
+        var files = fileInput.files;
+        var fileNames = [];
+
+        for (var i = 0; i < files.length; i++) {
+            fileNames.push(files[i].name);
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uploadFileNames', true);
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log('File names enqueued successfully.');
+                alert("Files enqueued")
+            } else {
+                console.error('Failed to enqueue file names.');
+            }
+        };
+        xhr.send(JSON.stringify(fileNames));
+    }
+
+    function displayQueue() {
+        var fileTable = document.getElementById('fileTable');
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/getQueue', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var fileQueue = JSON.parse(xhr.responseText);
+                updateFileTable(fileQueue);
+                fileTable.classList.add('fade-in', 'slide-down'); // Apply animations
+                fileTable.style.display = 'table'; // Show the table
+            } else {
+                console.error('Failed to get file queue.');
+            }
+        };
+        xhr.send();
+    }
+
+    function updateFileTable(fileQueue) {
+        var fileTableBody = document.getElementById('fileTableBody');
+        fileTableBody.innerHTML = '';
+
+        for (var i = 0; i < fileQueue.length; i++) {
+            var row = fileTableBody.insertRow();
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+
+            cell1.textContent = i + 1;
+            cell2.textContent = fileQueue[i];
+        }
+    }
+</script>
+
+</body>
+</html>
