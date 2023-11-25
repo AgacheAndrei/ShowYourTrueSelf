@@ -1,133 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Video Chooser Example</title>
-
+    <title>Show Your True Self</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            margin: 20px;
-            text-align: center;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            background-image: linear-gradient(45deg, #e3f2fd, #90caf9);
+            background-size: cover;
+            color: #333;
+            overflow-x: hidden;
         }
 
         h2 {
-            color: #333;
+            color: #212121;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 2.5em;
         }
 
         #fileInputContainer {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #fileInput {
-            opacity: 0;
-            width: 0.1px;
-            height: 0.1px;
-            position: absolute;
+            margin: 20px auto;
+            text-align: center;
         }
 
         #fileInputLabel {
-            cursor: pointer;
-            background-color: #3498db;
+            background-color: #007BFF;
             color: #fff;
-            padding: 10px 20px;
-            border-radius: 20px;
-            transition: background-color 0.3s ease;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
         }
 
         #fileInputLabel:hover {
-            background-color: #2980b9;
+            background-color: #0056b3;
         }
 
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 20px;
-            background-color: #2ecc71;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #27ae60;
-        }
-
-        a {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #3498db;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 20px;
-            transition: background-color 0.3s ease;
-        }
-
-        a:hover {
-            background-color: #2980b9;
+        #fileInput {
+            display: none;
         }
 
         #fileList {
-            margin-top: 20px;
-            text-align: left;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .fileListRow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 5px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .fileListRow:hover {
+            transform: scale(1.05);
         }
 
         .fileListItem {
-            margin-bottom: 10px;
-            padding: 8px;
-            background-color: #fff;
-            border: 1px solid #dcdcdc;
-            border-radius: 5px;
+            font-size: 1.1em;
+            color: #007BFF;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         #fileTable {
-            display: none; /* initially hide the table */
-            margin-top: 20px;
-            width: 100%;
+            display: none;
             border-collapse: collapse;
-            text-align: left;
+            width: 70%;
+            margin: 0 auto;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); }
+            to { transform: translateY(0); }
         }
 
         #fileTable th, #fileTable td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 15px;
+            text-align: left;
+            color: #333;
         }
 
         #fileTable th {
-            background-color: #3498db;
+            background-color: #007BFF;
             color: #fff;
         }
 
-        /* Animation styles */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        #fileTableBody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        #seeResultsBtn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
         }
 
-        @keyframes slideDown {
-            from {
-                transform: translateY(-20px);
-            }
-            to {
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .slide-down {
-            animation: slideDown 0.5s ease-in-out;
+        #seeResultsBtn:hover {
+            background-color: #218838;
         }
     </style>
 </head>
@@ -136,44 +133,43 @@
 
 <div id="fileInputContainer">
     <label id="fileInputLabel" for="fileInput">Browse Files</label>
-    <input type="file" id="fileInput" accept=".mp4" multiple onchange="displaySelectedFiles()">
+    <input type="file" id="fileInput" accept=".mp4" multiple onchange="uploadFiles()">
 </div>
 
-<button type="button" onclick="uploadFile()">Upload Files</button>
+<div id="fileList">
+    <!-- Display processed file names -->
+<!--    <h3>Processed File Names:</h3>-->
+    <ul id="dynamicFileList"></ul>
+</div>
 
-<a href="#" onclick="displayQueue()">Display Queue</a>
+<button id="seeResultsBtn" onclick="location.href='/displayResults'">See Results</button>
 
-<div id="fileList"></div>
-
-<table id="fileTable">
-    <thead>
-    <tr>
-        <th>Row ID</th>
-        <th>File Path</th>
-    </tr>
-    </thead>
-    <tbody id="fileTableBody"></tbody>
-</table>
-
-<script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
     var selectedFiles = [];  // Array to store selected files
 
-    function displaySelectedFiles() {
+    function uploadFiles() {
         var fileInput = document.getElementById('fileInput');
-        var fileListDiv = document.getElementById('fileList');
-        fileListDiv.innerHTML = 'Selected files: \n';
+        var dynamicFileList = document.getElementById('dynamicFileList');
+        dynamicFileList.innerHTML = '';
 
         selectedFiles = [];  // Clear the array when new files are selected
 
         for (var i = 0; i < fileInput.files.length; i++) {
             var fileNameDiv = document.createElement('div');
-            fileNameDiv.className = 'fileListItem';
-            fileNameDiv.textContent = fileInput.files[i].name;
-            fileListDiv.appendChild(fileNameDiv);
+            fileNameDiv.className = 'fileListRow';
+            fileNameDiv.innerHTML = '<div class="fileListItem">' + fileInput.files[i].name + '</div>';
+            fileNameDiv.addEventListener('click', function () {
+                // Do something when a file is clicked
+            });
+            dynamicFileList.appendChild(fileNameDiv);
 
             // Store the file object in the array
             selectedFiles.push(fileInput.files[i]);
         }
+
+        // Automatically upload files when selected
+        uploadFile();
     }
 
     function uploadFile() {
@@ -188,44 +184,33 @@
             if (xhr.status === 200) {
                 console.log('Files uploaded successfully.');
                 alert("Files uploaded");
+
+                // Display processed file names dynamically
+                var processedFileNames = /*[[${uploadedFileNames}]]*/ [];
+                var dynamicFileList = document.getElementById('dynamicFileList');
+                processedFileNames.forEach(function (fileName) {
+                    var fileNameDiv = document.createElement('div');
+                    fileNameDiv.className = 'fileListRow';
+                    fileNameDiv.innerHTML = '<div class="fileListItem">' + fileName + '</div>';
+                    dynamicFileList.appendChild(fileNameDiv);
+                });
             } else {
                 console.error('Failed to upload files.');
             }
         };
         xhr.send(formData);
     }
-
-    function displayQueue() {
-        var fileTable = document.getElementById('fileTable');
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/getQueue', true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                var fileQueue = JSON.parse(xhr.responseText);
-                updateFileTable(fileQueue);
-                fileTable.classList.add('fade-in', 'slide-down'); // Apply animations
-                fileTable.style.display = 'table'; // Show the table
-            } else {
-                console.error('Failed to get file queue.');
-            }
-        };
-        xhr.send();
-    }
-
-    function updateFileTable(fileQueue) {
-        var fileTableBody = document.getElementById('fileTableBody');
-        fileTableBody.innerHTML = '';
-
-        for (var i = 0; i < fileQueue.length; i++) {
-            var row = fileTableBody.insertRow();
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-
-            cell1.textContent = i + 1;
-            cell2.textContent = fileQueue[i];
-        }
-    }
+    /*]]>*/
 </script>
 
+<table id="fileTable">
+    <thead>
+    <tr>
+        <th>Row ID</th>
+        <th>File Path</th>
+    </tr>
+    </thead>
+    <tbody id="fileTableBody"></tbody>
+</table>
 </body>
 </html>

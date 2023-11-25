@@ -13,4 +13,6 @@ public interface VideoQueue {
     String peekVideo();
 
     void addVideos(List<String> fileNames);
+
+    boolean isQEmpty();
 }

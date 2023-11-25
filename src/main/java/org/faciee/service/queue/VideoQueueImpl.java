@@ -3,9 +3,9 @@ package org.faciee.service.queue;
 import lombok.ToString;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @Service
 @ToString
@@ -13,7 +13,7 @@ public class VideoQueueImpl implements VideoQueue {
     private final Queue<String> videoQueue;
 
     public VideoQueueImpl() {
-        this.videoQueue = new LinkedList<>();
+        this.videoQueue = new LinkedBlockingQueue<>();
     }
 
     public void addVideo(String videoPath) {
@@ -25,11 +25,7 @@ public class VideoQueueImpl implements VideoQueue {
     }
 
     public String popVideo() {
-        if (!videoQueue.isEmpty()) {
-            return videoQueue.poll();
-        } else {
-            return null;
-        }
+        return videoQueue.poll();
     }
 
     public String peekVideo() {
@@ -39,5 +35,10 @@ public class VideoQueueImpl implements VideoQueue {
     @Override
     public void addVideos(List<String> fileNames) {
         videoQueue.addAll(fileNames);
+    }
+
+    @Override
+    public boolean isQEmpty() {
+        return videoQueue.isEmpty();
     }
 }

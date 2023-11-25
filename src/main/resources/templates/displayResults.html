@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Execution Results</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            background-image: linear-gradient(45deg, #e3f2fd, #90caf9);
+            background-size: cover;
+            color: #333;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #212121;
+            margin-top: 50px;
+            font-size: 2.5em;
+        }
+
+        h3 {
+            color: #212121;
+            font-size: 1.8em;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            margin-bottom: 20px;
+        }
+
+        li {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Style for the back button */
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1.2em;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        setInterval(function () {
+            location.reload();
+        }, 3000);
+
+        function goBack() {
+            // Use JavaScript to navigate back to the /fileChooser page
+            window.location.href = '/fileChooser';
+        }
+    </script>
+</head>
+<body>
+<h2>Execution Results</h2>
+
+<h3>Succeeded Lines:</h3>
+<ul>
+    <li th:each="line : ${successLines}" th:text="${line}"></li>
+</ul>
+
+<h3>Failed Lines:</h3>
+<ul>
+    <li th:each="line : ${failLines}" th:text="${line}"></li>
+</ul>
+
+<!-- Back button -->
+<button onclick="goBack()">Back to File Chooser</button>
+</body>
+</html>

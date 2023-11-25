@@ -3,6 +3,11 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.8 (ShowYourTrueSelf)" />
   </component>
+  <component name="EntryPointsManager">
+    <writeAnnotations>
+      <writeAnnotation name="lombok.Getter" />
+    </writeAnnotations>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">

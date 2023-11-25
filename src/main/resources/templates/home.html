@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Show your True Self - Welcome Page</title>
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+    /* Style the body */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+
+    /* Style the header */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Style the logo */
+    .logo {
+        width: 100px;
+        height: 100px;
+    }
+
+    /* Style the title */
+    .title {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333333;
+        margin: 0;
+        text-align: center;
+        padding-left: 7%;
+        margin-top: 20px; /* Add margin to space it from the logo */
+    }
+
+    /* Style the application button */
+    .app-button {
+        background-color: #333333;
+        color: #ffffff;
+        padding: 15px 30px;
+        font-size: 24px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    /* Change the color of the application button on hover */
+    .app-button:hover {
+        background-color: #555555;
+    }
+
+    /* Style the introduction section */
+    .intro {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #ffffff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Style the text in the introduction section */
+    .intro p {
+        font-size: 18px;
+        color: #333333;
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    /* Style the members section */
+    .members {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background-color: #ffffff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+    }
+
+    /* Style the cards in the members section */
+    .member-card {
+        width: 250px;
+        height: 250px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #333333;
+        border-radius: 10px;
+        margin: 10px;
+    }
+
+    /* Style the images in the member cards */
+    .member-img {
+        width: 175px;
+        height: 175px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    /* Style the names in the member cards */
+    .member-name {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333333;
+        margin: 10px 0;
+    }
+
+    /* Style the theme section */
+    .theme {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #ffffff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Style the text in the theme section */
+    .theme p {
+        font-size: 18px;
+        color: #333333;
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    /* Style the icons in the theme section */
+    .theme i {
+        font-size: 48px;
+        color: #333333;
+        margin: 10px;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        /* Adăugă această linie pentru o margine între antet și conținutul următor */
+    }
+</style>
+<body>
+<!-- Header Section -->
+<header>
+    <!-- Logo -->
+    <img th:src="@{images/logo.jpg}" alt="Logo" class="logo">
+    <!-- Title -->
+    <h1 class="title">Show Your True Self</h1>
+    <!-- Application Button -->
+
+    <button class="app-button" onclick="location.href='/fileChooser'">The Application</button>
+</header>
+<!-- Introduction Section -->
+<div class="intro">
+    <p>Welcome to our page!</p>
+    <p>We are a team of five students passionate about technology and software engineering.</p>
+</div>
+<!-- Members Section -->
+<div class="members">
+    <!-- Card for Mirica Andrei-Daniel -->
+    <div class="member-card">
+        <img th:src="@{images/mirica.jpg}" alt="Mirica Andrei-Daniel" class="member-img">
+        <p class="member-name">Mirica Andrei-Daniel</p>
+    </div>
+    <!-- Card for Agache Andrei-Alexandru -->
+    <div class="member-card">
+        <img th:src="@{images/agache.jpg}" alt="Agache Andrei-Alexandru" class="member-img">
+        <p class="member-name">Agache Andrei-Alexandru</p>
+    </div>
+    <!-- Card for Necula Petru-Florian -->
+    <div class="member-card">
+        <img th:src="@{images/necula.jpg}" alt="Necula Petru-Florian" class="member-img">
+        <p class="member-name">Necula Petru-Florian</p>
+    </div>
+    <!-- Card for Soga Antonie -->
+    <div class="member-card">
+        <img th:src="@{images/soga.png}" alt="Soga Antonie" class="member-img">
+        <p class="member-name">Soga Antonie</p>
+    </div>
+    <!-- Card for Burtea Ionut-Marius -->
+    <div class="member-card">
+        <img th:src="@{images/burtea.jpg}" alt="Burtea Ionut-Marius" class="member-img">
+        <p class="member-name">Burtea Ionut-Marius</p>
+    </div>
+</div>
+<!-- Theme Section -->
+<div class="theme">
+    <p>We draw inspiration from the latest and most interesting developments in these fields.</p>
+</div>
+</body>
+
+</html>
