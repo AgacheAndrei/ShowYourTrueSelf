@@ -1,7 +1,6 @@
 package org.faciee.service.queue;
 
 import lombok.ToString;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -10,8 +9,8 @@ import java.util.Queue;
 
 @Service
 @ToString
-public class VideoQueueImpl implements VideoQueue{
-    private Queue<String> videoQueue;
+public class VideoQueueImpl implements VideoQueue {
+    private final Queue<String> videoQueue;
 
     public VideoQueueImpl() {
         this.videoQueue = new LinkedList<>();

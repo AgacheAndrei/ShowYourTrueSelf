@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Video Chooser Example</title>
@@ -105,13 +105,21 @@
 
         /* Animation styles */
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes slideDown {
-            from { transform: translateY(-20px); }
-            to { transform: translateY(0); }
+            from {
+                transform: translateY(-20px);
+            }
+            to {
+                transform: translateY(0);
+            }
         }
 
         .fade-in {
@@ -124,7 +132,6 @@
     </style>
 </head>
 <body>
-
 <h2>Video Chooser</h2>
 
 <div id="fileInputContainer">
@@ -132,7 +139,7 @@
     <input type="file" id="fileInput" accept=".mp4" multiple onchange="displaySelectedFiles()">
 </div>
 
-<button type="button" onclick="uploadFileNames()">Upload File Names</button>
+<button type="button" onclick="uploadFile()">Upload Files</button>
 
 <a href="#" onclick="displayQueue()">Display Queue</a>
 
@@ -142,47 +149,50 @@
     <thead>
     <tr>
         <th>Row ID</th>
-        <th>File Name</th>
+        <th>File Path</th>
     </tr>
     </thead>
     <tbody id="fileTableBody"></tbody>
 </table>
 
 <script>
+    var selectedFiles = [];  // Array to store selected files
+
     function displaySelectedFiles() {
         var fileInput = document.getElementById('fileInput');
         var fileListDiv = document.getElementById('fileList');
         fileListDiv.innerHTML = 'Selected files: \n';
+
+        selectedFiles = [];  // Clear the array when new files are selected
 
         for (var i = 0; i < fileInput.files.length; i++) {
             var fileNameDiv = document.createElement('div');
             fileNameDiv.className = 'fileListItem';
             fileNameDiv.textContent = fileInput.files[i].name;
             fileListDiv.appendChild(fileNameDiv);
+
+            // Store the file object in the array
+            selectedFiles.push(fileInput.files[i]);
         }
     }
 
-    function uploadFileNames() {
-        var fileInput = document.getElementById('fileInput');
-        var files = fileInput.files;
-        var fileNames = [];
-
-        for (var i = 0; i < files.length; i++) {
-            fileNames.push(files[i].name);
+    function uploadFile() {
+        var formData = new FormData();
+        for (var i = 0; i < selectedFiles.length; i++) {
+            formData.append('files', selectedFiles[i]);
         }
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/uploadFileNames', true);
-        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
         xhr.onload = function () {
             if (xhr.status === 200) {
-                console.log('File names enqueued successfully.');
-                alert("Files enqueued")
+                console.log('Files uploaded successfully.');
+                alert("Files uploaded");
             } else {
-                console.error('Failed to enqueue file names.');
+                console.error('Failed to upload files.');
             }
         };
-        xhr.send(JSON.stringify(fileNames));
+        xhr.send(formData);
     }
 
     function displayQueue() {
