@@ -7,9 +7,7 @@ Our project takes on the challenge of fake videos that could potentially harm th
 Especially when it comes to tricking important security systems used in various sectors such as **finance**, **healthcare**, **education**, and **public safety** where fake information can do a **lot of damage**. We're on a mission to safeguard against these dangers, ensuring a more secure and authentic digital landscape for **everyone**.
 
 ### How to run the demo
-The second option is to have the target folder, the PythonRunner folder and the bat file downloaded via drive data using this link or just get them from the project.
-<br>
-If you want to run the code using intellij ultimate you need to set-up the applications a bit:
+The first option is to have the target folder, the PythonRunner folder and the bat file downloaded via drive data using this link: https://drive.google.com/drive/folders/1XGX_PAh24mzB_Uj4VdNO3wxTephhU6mL?usp=drive_link or just get them from the project.
 
 
 ### Tech Stack
